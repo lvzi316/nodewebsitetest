@@ -1,0 +1,6 @@
+{
+    "HOST"       : "https://chaopantestdocdb.documents.azure.com:443/",
+    "AUTH_KEY"   : "vEJcQTd8TKwb26fEovGL7A2HxYoFsSVgw+yVmCmCG9g/3MN8kW4rIWGsxdaz86xYdZ51DjaSpJYBrgvXIPUh/g==",
+    "DATABASE"   : "appmodel",
+    "RESOURCECOLLECTION" : "resource"
+}
