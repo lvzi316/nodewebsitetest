@@ -4,17 +4,19 @@ var fs = require('fs');
 var title;
 var jsondata;
 /* GET home page. */
-router.get('/', function(req, res, next) {
-
-  fs.readFile('package.json', function(err, data) {
-      if (err) 
-      {
-        title = 'Oops';
-      };
-      title = 'resource';
-      res.render('index', { title: 'resource' , resource: JSON.stringify(JSON.parse(data), null, 4)});
+router.get('/resource/:name', function(req, res, next) {
+  var resourcename = req.params.name;
+  title = resourcename;
+  console.log('page title: ', title);
+  var filename = 'static/' + resourcename + '.json';
+  console.log('filename: ', filename);
+  var data = fs.readFile(filename, function(err, data){
+      var payload = JSON.parse(data);
+      console.log(payload);
+      res.render('index', { title: title , resource: JSON.stringify(payload, null, 2)});
     }
-  )
+  );
+
 });
 
 module.exports = router;

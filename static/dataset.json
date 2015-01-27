@@ -1,0 +1,15 @@
+{
+  "name": "dataset",
+  "properties": 
+  {
+    "tables":
+    [
+      {
+        "name": "datatable_a"
+      },
+      {
+        "name": "datatable_b"
+      }
+    ]
+  }
+}
