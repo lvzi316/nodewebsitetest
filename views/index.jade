@@ -2,5 +2,19 @@ extends layout
 
 block content
   h1= title
-  pre
-    code= resource
+  div(class='table-responsive')
+    table(class='table table-striped')
+      thead
+        tr
+          td Name
+          td Status
+          td CreateDate
+          td Detail
+      tbody
+        each syncgroup in syncgroups
+          tr
+              td #{syncgroup.name}
+              td #{syncgroup.status}
+              td #{syncgroup.createby}
+              td 
+                a(href='#{syncgroup.detailurl}') #{syncgroup.name}
