@@ -22,8 +22,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', index);
-app.get('/login', login.form)
+app.get('/', index.list);
+app.get('/login', login.form);
+app.get('/newsyncgroup', index.create);
+app.get('/syncgroup/:name', index.detail);
 
 
 // catch 404 and forward to error handler
