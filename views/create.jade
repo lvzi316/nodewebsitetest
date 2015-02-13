@@ -7,67 +7,70 @@ block headcontent
 block content
   h1
     | New Sync Group
-  div(id='editor_holder')
-  script.
-    var editor = new JSONEditor(document.getElementById('editor_holder'),{
-      schema: {
-        "title": "SyncGroup",
-        "type": "object",
-        "properties": {
-          "name": {
-            "type": "string",
-            "description": "Syncgroupname",
-            "minLength": 2
-          },
-          "description": {
-            "type": "string",
-            "minLength": 2
-          },
-          "Central": {
-            "type": "string",
-          },
-          "Members": {
-            "type": "array",
-            "format": "table",
-            "title": "Members",
-            "uniqueItems": true,
-            "items": {
-              "type": "object",
-              "properties": {
-                "LinkedService": {
-                  "type": "string"
-                },
-                "Direction": {
-                  "type": "string",
-                  "enum": [
-                    "To-hub",
-                    "From-hub",
-                    "Bi-direction"
-                  ],
+  div(class='container')
+    div(class='row')
+      div(class='col-sm-3')
+      div(class='col-sm-6' id='editor_holder')
+      script.
+        var editor = new JSONEditor(document.getElementById('editor_holder'),{
+          schema: {
+            "title": "SyncGroup",
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Syncgroupname",
+                "minLength": 2
+              },
+              "description": {
+                "type": "string",
+                "minLength": 2
+              },
+              "Central": {
+                "type": "string",
+              },
+              "Members": {
+                "type": "array",
+                "format": "table",
+                "title": "Members",
+                "uniqueItems": true,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "LinkedService": {
+                      "type": "string"
+                    },
+                    "Direction": {
+                      "type": "string",
+                      "enum": [
+                        "To-hub",
+                        "From-hub",
+                        "Bi-direction"
+                      ],
+                    }
+                  }
+                }
+              },
+              "Syncrule": {
+                "type": "object",
+                "title": "Sync Configuration",
+                "properties": {
+                  "Interval":{
+                    "type": "integer",
+                    "default": 5   
+                  },
+                  "ConflictPolicy": {
+                    "type": "string",
+                    "enum": [
+                      "Central Win",
+                      "Member Win"
+                    ]
+                  }
                 }
               }
             }
-          },
-          "Syncrule": {
-            "type": "object",
-            "title": "Sync Configuration",
-            "properties": {
-              "Interval":{
-                "type": "integer",
-                "default": 5   
-              },
-              "ConflictPolicy": {
-                "type": "string",
-                "enum": [
-                  "Central Win",
-                  "Member Win"
-                ]
-              }
-            }
           }
-        }
-      }
-    });
+        });
 
 
-  
+      
