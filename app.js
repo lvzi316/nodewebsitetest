@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
+var api = require('./routes/api');
 var app = express();
 
 // view engine setup
@@ -26,7 +27,8 @@ app.get('/', index.list);
 app.get('/login', login.form);
 app.get('/newsyncgroup', index.create);
 app.get('/syncgroup/:name', index.detail);
-
+app.get('/api', api.get);
+app.post('/api', api.post);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
