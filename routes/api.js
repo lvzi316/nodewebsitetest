@@ -1,4 +1,5 @@
 var wxauth = require('../lib/wx/wxauth.js');
+//var parseString = require('xml2js').parseString;
 exports.get = function(req,res,next){
   var signature=req.query.signature;
   console.log('signature:' + signature);
@@ -27,5 +28,16 @@ exports.get = function(req,res,next){
 };
 
 exports.post = function(req, res, next) {
-  console.log('post request');
+  var response=res;
+  var formData="";
+  req.on("data",function(data){
+    formData+=data;
+  });
+  req.on("end",function(){
+    //parseString(formData, function (err, result) {
+      //console.log(result);
+    //});
+    var xml = '<xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[fromUser]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[你好]]></Content></xml>';
+    response.write(xml);
+  });
 }
