@@ -28,7 +28,7 @@ exports.get = function(req,res,next){
 };
 
 exports.post = function(req, res, next) {
-  var xml = '<xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[fromUser]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[你好]]></Content></xml>';
+  var xml = '<xml><ToUserName><![CDATA[oNF2Nt5lCrdx1HyagkV_7CsRxfI4]]></ToUserName><FromUserName><![CDATA[gh_2fc734e53c68]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[你好]]></Content></xml>';
   res.setHeader("Content-Type", "application/xml");
   res.write(xml);
   res.end();
