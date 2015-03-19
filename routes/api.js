@@ -30,6 +30,7 @@ exports.get = function(req,res,next){
 exports.post = function(req, res, next) {
   var xml = '<xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[fromUser]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[你好]]></Content></xml>';
   res.write(xml);
+  res.end();
   // var response=res;
   // var formData="";
   // req.on("data",function(data){
