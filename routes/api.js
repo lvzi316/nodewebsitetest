@@ -28,16 +28,18 @@ exports.get = function(req,res,next){
 };
 
 exports.post = function(req, res, next) {
-  var response=res;
-  var formData="";
-  req.on("data",function(data){
-    formData+=data;
-  });
-  req.on("end",function(){
-    //parseString(formData, function (err, result) {
-      //console.log(result);
-    //});
-    var xml = '<xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[fromUser]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[你好]]></Content></xml>';
-    response.write(xml);
-  });
+  var xml = '<xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[fromUser]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[你好]]></Content></xml>';
+  res.write(xml);
+  // var response=res;
+  // var formData="";
+  // req.on("data",function(data){
+  //   formData+=data;
+  // });
+  // req.on("end",function(){
+  //   //parseString(formData, function (err, result) {
+  //     //console.log(result);
+  //   //});
+  //   var xml = '<xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[fromUser]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[你好]]></Content></xml>';
+  //   response.write(xml);
+  // });
 }
