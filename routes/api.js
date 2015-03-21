@@ -1,5 +1,7 @@
 var wxauth = require('../lib/wx/wxauth.js');
-//var parseString = require('xml2js').parseString;
+var parseString = require('xml2js').parseString;
+var responstemplate = '<xml><ToUserName><![CDATA[tosuernamevalue]]></ToUserName><FromUserName><![CDATA[gh_2fc734e53c68]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[contentvalue]]></Content></xml>';
+
 exports.get = function(req,res,next){
   var signature=req.query.signature;
   console.log('signature:' + signature);
@@ -27,21 +29,30 @@ exports.get = function(req,res,next){
 
 };
 
-exports.post = function(req, res, next) {
-  var xml = '<xml><ToUserName><![CDATA[oNF2Nt5lCrdx1HyagkV_7CsRxfI4]]></ToUserName><FromUserName><![CDATA[gh_2fc734e53c68]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[你好]]></Content></xml>';
-  res.setHeader("Content-Type", "application/xml");
-  res.write(xml);
-  res.end();
-  // var response=res;
-  // var formData="";
-  // req.on("data",function(data){
-  //   formData+=data;
-  // });
-  // req.on("end",function(){
-  //   //parseString(formData, function (err, result) {
-  //     //console.log(result);
-  //   //});
-  //   var xml = '<xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[fromUser]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[你好]]></Content></xml>';
-  //   response.write(xml);
-  // });
+exports.post = function(req, res, next) { 
+  var formData="";
+  
+  req.on("data",function(data){
+    formData+=data;
+  });
+
+  req.on("end",function(){
+    console.log('formData:' + formData);
+
+    parseString(formData, function (err, result) {
+      console.log('result:' + result.toString());
+
+      var fromuserName = result.xml.FromUserName.toString();
+      console.log('FromUser:' + fromuserName);
+      console.log('ToUserName:' + result.xml.ToUserName.toString());
+      
+      var content = responstemplate.replace(/tosuernamevalue/, fromuserName);
+      console.log('content:' + content);
+
+      var finalcontent = content.replace(/contentvalue/, "你好:" + fromuserName);
+      res.setHeader("Content-Type", "application/xml");
+      res.write(finalcontent);
+      res.end();
+    });
+  });
 }
