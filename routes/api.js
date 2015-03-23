@@ -45,13 +45,20 @@ exports.post = function(req, res, next) {
       var fromuserName = result.xml.FromUserName.toString();
       console.log('FromUser:' + fromuserName);
       console.log('ToUserName:' + result.xml.ToUserName.toString());
-      
-      var content = responstemplate.replace(/tosuernamevalue/, fromuserName);
-      console.log('content:' + content);
 
-      var date = new Date();
-      var bookcontent = date.getFullYear().toString() + "年" + (date.getMonth() + 1).toString() + "月" + date.getDate().toString() + "日" + date.getHours().toString() + "点";
-      var finalcontent = content.replace(/contentvalue/, "你已经预定:" + bookcontent);
+      var content = responstemplate.replace(/tosuernamevalue/, fromuserName);
+      console.log('content:' + content); 
+      console.log('message type:' + result.xml.MsgType.toString());
+      var finalcontent = content;
+      if (result.xml.MsgType.toString() === 'event') {
+        finalcontent = finalcontent.replace(/contentvalue/, "你好:" + fromuserName);
+      }
+      else if(result.xml.MsgType.toString() === 'text') {
+        var date = new Date();
+        var bookcontent = date.getFullYear().toString() + "年" + (date.getMonth() + 1).toString() + "月" + date.getDate().toString() + "日" + date.getHours().toString() + "点";
+        finalcontent = finalcontent.replace(/contentvalue/, "你已经预定:" + bookcontent);
+      }
+      console.log('finalcontent:' + finalcontent);
 
       res.setHeader("Content-Type", "application/xml");
       res.write(finalcontent);
