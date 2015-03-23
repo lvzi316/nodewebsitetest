@@ -49,7 +49,10 @@ exports.post = function(req, res, next) {
       var content = responstemplate.replace(/tosuernamevalue/, fromuserName);
       console.log('content:' + content);
 
-      var finalcontent = content.replace(/contentvalue/, "你好:" + fromuserName);
+      var date = new Date();
+      var bookcontent = date.getFullYear().toString() + "年" + (date.getMonth() + 1).toString() + "月" + date.getDate().toString() + "日" + date.getHours().toString() + "点";
+      var finalcontent = content.replace(/contentvalue/, "你已经预定:" + bookcontent);
+
       res.setHeader("Content-Type", "application/xml");
       res.write(finalcontent);
       res.end();
