@@ -1,7 +1,9 @@
 var wxauth = require('../lib/wx/wxauth.js');
 var parseString = require('xml2js').parseString;
 var https = require('https');
-var responstemplate = '<xml><ToUserName><![CDATA[tosuernamevalue]]></ToUserName><FromUserName><![CDATA[gh_2fc734e53c68]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[contentvalue]]></Content></xml>';
+var textresponstemplate = '<xml><ToUserName><![CDATA[tosuernamevalue]]></ToUserName><FromUserName><![CDATA[gh_2fc734e53c68]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[contentvalue]]></Content></xml>';
+var linkpicresponstemplate = '<xml><ToUserName><![CDATA[tosuernamevalue]]></ToUserName><FromUserName><![CDATA[gh_2fc734e53c68]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[news]]></MsgType><ArticleCount>1</ArticleCount><Articles><item><Title><![CDATA[约会]]></Title><Description><![CDATA[contentvalue]]></Description><Url><![CDATA[https://nodeexpr.azurewebsites.net]]></Url></item></Articles></xml>';
+
 function getnickname(fromuser, func){
   var https = require('https');
   var querystring = require('querystring');
@@ -10,7 +12,7 @@ function getnickname(fromuser, func){
     port:443,
     method:'GET'
   };
-  var token = "VV88AfEzj21-T4V7H-oEVssXdjaYZQOcXBH5dnS_-FXJlqP4mCeuIJzR4m-88gIwZW0D117TNKxlvuKpO3nekTbyEfeYaM0Jxm9SYtNoI0k";
+  var token = "jDQvnA9NuIJ3S5pw3xC2ieB8mRGMSX1qkPegcGUR4R24utHVUIZZHEy1Nb7AcPmjwjPuMCseegmM1DE72y5sz0WxTjWqAgvwonEj0Q5n7AU";
   var path = "/cgi-bin/user/info?" + querystring.stringify({access_token:token, openid:fromuser});
   console.log('path:' + path);
   httpoptions.path = path;
@@ -72,17 +74,17 @@ exports.post = function(req, res, next) {
       console.log('FromUser:' + fromuserName);
       console.log('ToUserName:' + result.xml.ToUserName.toString());
 
-      var content = responstemplate.replace(/tosuernamevalue/, fromuserName);
-      console.log('content:' + content); 
-      console.log('message type:' + result.xml.MsgType.toString());
-      var finalcontent = content;
       
       if (result.xml.MsgType.toString() === 'event') {
         getnickname(fromuserName, function (nickname) {
-            finalcontent = finalcontent.replace(/contentvalue/, "你好:" + nickname);
+            var textcontent = textresponstemplate.replace(/tosuernamevalue/, fromuserName);
+            // console.log('content:' + content); 
+            // console.log('message type:' + result.xml.MsgType.toString());
+
+            var textcontent = textcontent.replace(/contentvalue/, "你好:" + nickname);
             console.log('getnickname succeed');
             res.setHeader("Content-Type", "application/xml");
-            res.write(finalcontent);
+            res.write(textcontent);
             res.end();
           }
         );
@@ -91,10 +93,10 @@ exports.post = function(req, res, next) {
       else if(result.xml.MsgType.toString() === 'text') {
         var date = new Date();
         var bookcontent = date.getFullYear().toString() + "年" + (date.getMonth() + 1).toString() + "月" + date.getDate().toString() + "日" + date.getHours().toString() + "点";
-        finalcontent = finalcontent.replace(/contentvalue/, "你已经预定:" + bookcontent);
-        console.log('finalcontent:' + finalcontent);
+        var piclinkcontent = linkpicresponstemplate.replace(/tosuernamevalue/, fromuserName).replace(/contentvalue/, "你已经预定:" + bookcontent);
+        console.log('piclinkcontent:' + piclinkcontent);
         res.setHeader("Content-Type", "application/xml");
-        res.write(finalcontent);
+        res.write(piclinkcontent);
         res.end();
       }
     });
