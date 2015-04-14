@@ -38,3 +38,4 @@ exports.detail = function(req, res, next) {
 exports.create = function(req, res, next) {
   res.render('create');
 };
+

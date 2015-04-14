@@ -2,7 +2,7 @@ var wxauth = require('../lib/wx/wxauth.js');
 var parseString = require('xml2js').parseString;
 var https = require('https');
 var textresponstemplate = '<xml><ToUserName><![CDATA[tosuernamevalue]]></ToUserName><FromUserName><![CDATA[gh_2fc734e53c68]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[contentvalue]]></Content></xml>';
-var linkpicresponstemplate = '<xml><ToUserName><![CDATA[tosuernamevalue]]></ToUserName><FromUserName><![CDATA[gh_2fc734e53c68]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[news]]></MsgType><ArticleCount>1</ArticleCount><Articles><item><Title><![CDATA[约会]]></Title><Description><![CDATA[contentvalue]]></Description><Url><![CDATA[https://nodeexpr.azurewebsites.net]]></Url></item></Articles></xml>';
+var linkpicresponstemplate = '<xml><ToUserName><![CDATA[tosuernamevalue]]></ToUserName><FromUserName><![CDATA[gh_2fc734e53c68]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[news]]></MsgType><ArticleCount>1</ArticleCount><Articles><item><Title><![CDATA[约会]]></Title><Description><![CDATA[contentvalue]]></Description><Url><![CDATA[https://nodeexpr.azurewebsites.net/calendar]]></Url></item></Articles></xml>';
 
 function getnickname(fromuser, func){
   var https = require('https');
@@ -32,18 +32,15 @@ function getnickname(fromuser, func){
 
 exports.get = function(req,res,next){
   var signature=req.query.signature;
-  console.log('signature:' + signature);
 
   var timestamp=req.query.timestamp;
-  console.log('timestamp:' + timestamp);
 
   var nonce=req.query.nonce;
-  console.log('nonce:' + nonce);
 
   var echostr=req.query.echostr;
-  console.log('echostr:' + echostr);
 
   var check=false;
+
   check = wxauth.auth(signature, timestamp, nonce, 'chaopan_wx2015');
   
   if(check) {
@@ -54,7 +51,6 @@ exports.get = function(req,res,next){
     res.write("error data");
   }
   res.end();
-
 };
 
 exports.post = function(req, res, next) { 

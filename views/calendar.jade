@@ -1,0 +1,75 @@
+extends layout
+block headcontent
+  script(src='/javascripts/jsoneditor.min.js')
+  script.
+    JSONEditor.defaults.theme = 'bootstrap3';
+    JSONEditor.defaults.editors.object.options.disable_properties = true;
+
+block content
+  div(class='container')
+    div(class='row')
+      div(class='col-sm-4')
+      div(class='col-sm-4' id='editor_holder')
+      script.
+        var editor = new JSONEditor(document.getElementById('editor_holder'),{
+          schema: {
+            "title": "New Meeting",
+            "type": "object",
+            "options": {
+              "disable_collapse": true
+            },
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Title",
+                "minLength": 2
+              },
+              "Participants": {
+                "type": "array",
+                "options": {
+                  "disable_array_reorder": true,
+                  "disable_collapse": true
+                },              
+                "format": "table",
+                "title": "Persons",
+                "uniqueItems": true,
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "First name": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "Date": {
+                "type": "string",
+                "format": "time",
+                "minLength": 2
+              },
+              "Location": {
+                "type": "string",
+              },
+            }
+          }
+        });
+    div(class='row')
+      div(class='col-sm-4')
+      a(class='btn btn-primary' role='button' id='submit') Submit
+  script.
+    document.getElementById('submit').addEventListener('click', function(){
+      var result = JSON.stringify(editor.getValue());
+      console.log("ajax request: " + result);
+      $.ajax({
+          type: "post",
+          url: "/calendar", 
+          dataType: "json",
+          contentType: "application/json; charset=UTF-8",
+          data:  result
+      }).done(function (res) {
+          console.log("ajax call result: " + res.result);
+          document.getElementById('submit').
+          document.getElementById('editor_holder').innerHTML="<h3>Calendar submit succeed</h3>";
+      });
+    });  
+      

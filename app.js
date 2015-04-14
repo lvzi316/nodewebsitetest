@@ -9,6 +9,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 var login = require('./routes/login');
 var api = require('./routes/api');
+var calendar = require('./routes/calendar');
 var app = express();
 
 // view engine setup
@@ -29,6 +30,8 @@ app.get('/newsyncgroup', index.create);
 app.get('/syncgroup/:name', index.detail);
 app.get('/api', api.get);
 app.post('/api', api.post);
+app.get('/calendar', calendar.calendar);
+app.post('/calendar', calendar.newcalendar);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
