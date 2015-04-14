@@ -1,4 +1,4 @@
-extends layout
+extends calendarlayout
 block headcontent
   script(src='/javascripts/jsoneditor.min.js')
   script.
@@ -68,8 +68,7 @@ block content
           data:  result
       }).done(function (res) {
           console.log("ajax call result: " + res.result);
-          document.getElementById('submit').
-          document.getElementById('editor_holder').innerHTML="<h3>Calendar submit succeed</h3>";
+          document.getElementById('editor_holder').innerHTML="<h3>Calendar submit succeed<h3>";
       });
     });  
       

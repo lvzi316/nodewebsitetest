@@ -2,7 +2,7 @@ var wxauth = require('../lib/wx/wxauth.js');
 var parseString = require('xml2js').parseString;
 var https = require('https');
 var textresponstemplate = '<xml><ToUserName><![CDATA[tosuernamevalue]]></ToUserName><FromUserName><![CDATA[gh_2fc734e53c68]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[contentvalue]]></Content></xml>';
-var linkpicresponstemplate = '<xml><ToUserName><![CDATA[tosuernamevalue]]></ToUserName><FromUserName><![CDATA[gh_2fc734e53c68]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[news]]></MsgType><ArticleCount>1</ArticleCount><Articles><item><Title><![CDATA[约会]]></Title><Description><![CDATA[contentvalue]]></Description><Url><![CDATA[https://nodeexpr.azurewebsites.net/calendar]]></Url></item></Articles></xml>';
+var linkpicresponstemplate = '<xml><ToUserName><![CDATA[tosuernamevalue]]></ToUserName><FromUserName><![CDATA[gh_2fc734e53c68]]></FromUserName><CreateTime>12345678</CreateTime><MsgType><![CDATA[news]]></MsgType><ArticleCount>1</ArticleCount><Articles><item><Title><![CDATA[创建新约会]]></Title><Description><![CDATA[contentvalue]]></Description><Url><![CDATA[https://nodeexpr.azurewebsites.net/calendar]]></Url></item></Articles></xml>';
 
 function getnickname(fromuser, func){
   var https = require('https');
@@ -88,8 +88,7 @@ exports.post = function(req, res, next) {
       }
       else if(result.xml.MsgType.toString() === 'text') {
         var date = new Date();
-        var bookcontent = date.getFullYear().toString() + "年" + (date.getMonth() + 1).toString() + "月" + date.getDate().toString() + "日" + date.getHours().toString() + "点";
-        var piclinkcontent = linkpicresponstemplate.replace(/tosuernamevalue/, fromuserName).replace(/contentvalue/, "你已经预定:" + bookcontent);
+        var piclinkcontent = linkpicresponstemplate.replace(/tosuernamevalue/, fromuserName).replace(/contentvalue/, "猛戳创建一个新的约会!");
         console.log('piclinkcontent:' + piclinkcontent);
         res.setHeader("Content-Type", "application/xml");
         res.write(piclinkcontent);
